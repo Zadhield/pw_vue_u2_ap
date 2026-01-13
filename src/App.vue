@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DirectivasView />
+    <DirectivasView/>
   </div>
 </template>
 
