@@ -1,20 +1,19 @@
 <template>
-  <div class="view-container">
-    <h2>Prueba</h2>
-    <PreguntaView />
-  </div>
+ 
+    <Pregunta />
+  
 </template>
 
 <script>
-import Directivas from "../components/Directivas.vue";
+import Pregunta from "@/components/Pregunta.vue";
 export default {
   components: {
-    Directivas,
+    Pregunta,
   },
 };
 </script>
 
-<style scoped>
+<style>
 .view-container {
   display: flex;
   justify-content: center;
