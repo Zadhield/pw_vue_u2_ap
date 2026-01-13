@@ -1,27 +1,57 @@
 <template>
   <div class="view-container">
-    <img
-      src="https://yesno.wtf/assets/yes/5-64c2804cc48057b94fd0b3eaf323d92c.gif
- "
-      alt="No se puede visualizar"
-    />
+    <!-- usamos v-bind pero con su shortcut (:)-->
+    <img v-if="imagen" :src="imagen" alt="No se puede visualizar" />
+    <div class="oscuro"></div>
 
     <div class="pregunta-container">
       <h1>Pregunta</h1>
-      <input type="text" placeholder=" Hazme una pregunta" />
+      <input v-model="pregunta" type="text" placeholder=" Hazme una pregunta" />
       <p>Recuerda terminar con el signo de interrogación (?)</p>
-      <h2>Sere millonario?</h2>
-      <h1>Yes, No</h1>
+
+      <h2>{{ pregunta }}</h2>
+      <h1>{{ respuesta }}</h1>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { consumirAPIFacade } from "@/clients/YesNoClient.js";
+export default {
+  data() {
+    return {
+      pregunta: null,
+      respuesta: null,
+      imagen: null,
+    };
+  },
+  watch: {
+    // Son observadores de propiedades reactivas que cuando cambian se dispara obteniendo el valor antiguo y el valor actual
+    pregunta(value, oldValue) {
+      if (value.includes("?")) {
+        // Lllamar al api
+        this.respuesta = "Pensando.....";
+        this.consumir();
+      }
+    },
+  },
+  methods: {
+    async consumir() {
+      const res = await consumirAPIFacade();
+      console.log("Respuesta final");
+      console.log(res);
+      console.log(res.answer);
+
+      this.respuesta = res.answer;
+      this.imagen = res.image;
+    },
+  },
+};
 </script>
 
-<style>
-img {
+<style scoped>
+img,
+.oscuro {
   height: 100vh;
   width: 100vw;
   max-height: 100%;
@@ -29,6 +59,9 @@ img {
   position: fixed;
   left: 0px;
   top: 0px;
+}
+.oscuro {
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .pregunta-container {
   position: relative;

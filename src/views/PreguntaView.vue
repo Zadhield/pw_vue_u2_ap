@@ -1,7 +1,5 @@
 <template>
- 
-    <Pregunta />
-  
+  <Pregunta />
 </template>
 
 <script>
@@ -13,7 +11,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .view-container {
   display: flex;
   justify-content: center;
