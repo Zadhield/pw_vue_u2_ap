@@ -1,10 +1,13 @@
 <template>
-  <PokemonImagen :pokemonId="pokemonGanador" />
+  <PokemonImagen v-if="mostrar" :pokemonId="pokemonGanador" />
   <PokemonOpciones
     @seleccionado="evaluarGanador($event)"
     :listaPokemons="pokemonArr"
   />
   <p v-if="mensaje">{{ mensaje }}</p>
+  <div class="boton">
+    <button @click="destruir()">DESTRUIR</button>
+  </div>
 </template>
 
 <script>
@@ -24,12 +27,39 @@ export default {
       pokemonArr: [],
       pokemonGanador: null,
       mensaje: null,
+      mostrar: true,
     };
   },
+  /* Crea el componente */
+  beforeCreate() {
+    console.log("beforeCreate: apenas inicial la instancia del componente");
+  },
+  created() {
+    console.log("created: ya se resolvieron data, computed, methods, watch");
+  },
+  /* Monta el componente: renderiza o visualiza el componente */
+  beforeMount() {
+    console.log(
+      "beforeMounted: se ejecuta justo antes de renderizar un componente o un elemento HTML"
+    );
+  },
   mounted() {
-    console.log("componente¡ montado");
+    console.log("componente montado: el componente ya se renderizo");
     this.iniciarJuego();
   },
+
+  /*Actualizacion de un componente */
+  beforeUpdate() {
+    console.log(
+      "beforeUpdate: Cuando cambió un data o un props del componente y Vue está por re-renderizar el cambio"
+    );
+  },
+  updated() {
+    console.log(
+      "Update: Cuando ya se actualizó después de la re-renderización"
+    );
+  },
+
   methods: {
     async iniciarJuego() {
       this.pokemonArr = await obtenerVectorPokemonFachada();
@@ -45,6 +75,9 @@ export default {
         this.mensaje = "perdiste";
       }
     },
+    destruir() {
+      this.mostrar = false;
+    },
   },
 };
 </script>
@@ -54,5 +87,10 @@ p {
   text-align: center;
   font-weight: bold;
   color: blue;
+}
+.boton {
+  display: flex;
+  align-content: center;
+  align-items: center;
 }
 </style>
